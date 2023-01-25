@@ -43,8 +43,8 @@ class MyDatabase{
 		return $this->queryAsMap("SELECT * FROM account where id=$id");
 	}
 	
-	public function getTasksForStudent($id){
-		return $this->queryAsMap("SELECT task_student.id AS taskIdForStudent, task_student.*, task.* FROM task_student INNER JOIN task ON task_student.task_id=task.id where student_id=$id;");
+	public function getQuestionsForStudent($id){
+		return $this->queryAsMap("SELECT task_student.*, task.question, task.mentor_id FROM task_student INNER JOIN task ON task_student.task_id=task.id where student_id=$id;");
 	}
 	
 	public function getMentorById($id){
@@ -53,6 +53,10 @@ class MyDatabase{
 	
 	public function answerTask($taskIdForStudent, $answer) {
 		return $this->updateQuery("UPDATE task_student SET answer='$answer' WHERE id=$taskIdForStudent");
+	}
+	
+	public function getAnswersForStudent($id) {
+		return $this->queryAsMap("SELECT task_student.*, task.answer AS actualAnswer FROM task_student INNER JOIN task ON task_student.task_id=task.id where student_id=$id;");
 	}
 }
 ?>

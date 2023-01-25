@@ -1,5 +1,5 @@
 <?php
-require ("request/assert.php");
+require ($_SERVER["DOCUMENT_ROOT"] . "/educational_system/request/assert.php");
 session_start();
 if(assertSession("loginId")){
 	header("Location:/educational_system/dashboard.php");
