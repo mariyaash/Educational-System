@@ -16,17 +16,16 @@ function assertRequest($requestType){
 }
 
 function assertSession(){
-		if(session_status()!=PHP_SESSION_ACTIVE){
-			echo "inactive session";
+	if(session_status()!=PHP_SESSION_ACTIVE){
+		return false;
+	}
+	$args=func_get_args();
+	$arg=[];
+	foreach($args as $arg){
+		if(!array_key_exists($arg,$_SESSION)){
 			return false;
 		}
-		$args=func_get_args();
-		$arg=[];
-		foreach($args as $arg){
-			if(!array_key_exists($arg,$_SESSION)){
-				return false;
-			}
-		}
-		return true;
+	}
+	return true;
 }
 ?>
