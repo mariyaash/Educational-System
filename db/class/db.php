@@ -19,14 +19,19 @@ class MyDatabase{
 		return $this->lastQuery;
 	}
 	
+	public function updateQuery($sql) {
+		$this->lastQuery = $this->db->query($sql);
+		return $this->lastQuery;
+	}
+	
 	public function getLastQuery(){
 		return $this->lastQuery;
 	}
 	
 	public function getAccountInfo($id){
-		$this->lastQuery=$this->queryAsMap("SELECT * FROM student where account=$id");
+		$this->queryAsMap("SELECT * FROM student where account=$id");
 		if(count($this->lastQuery)==0){
-			$this->lastQuery=$this->queryAsMap("SELECT * FROM mentor where account=$id");
+			$this->queryAsMap("SELECT * FROM mentor where account=$id");
 			$this->lastQuery["type"]=1;
 			return $this->lastQuery;
 		}
@@ -35,17 +40,19 @@ class MyDatabase{
 	}
 	
 	public function getAccountById($id){
-		$this->lastQuery=$this->queryAsMap("SELECT * FROM account where id=$id");
-		return $this->lastQuery;
+		return $this->queryAsMap("SELECT * FROM account where id=$id");
 	}
 	
 	public function getTasksForStudent($id){
-		$this->lastQuery=$this->queryAsMap("SELECT * FROM task_student INNER JOIN task ON task_student.task_id=task.id where student_id=$id");
-		return $this->lastQuery;
+		return $this->queryAsMap("SELECT task_student.id AS taskIdForStudent, task_student.*, task.* FROM task_student INNER JOIN task ON task_student.task_id=task.id where student_id=$id;");
 	}
+	
 	public function getMentorById($id){
-		$this->lastQuery=$this->queryAsMap("SELECT * FROM mentor where id=$id");
-		return $this->lastQuery;
+		return $this->queryAsMap("SELECT * FROM mentor where id=$id");
+	}
+	
+	public function answerTask($taskIdForStudent, $answer) {
+		return $this->updateQuery("UPDATE task_student SET answer='$answer' WHERE id=$taskIdForStudent");
 	}
 }
 ?>
