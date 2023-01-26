@@ -18,12 +18,10 @@
 			}
 		</script>
 		<style>
-			/*Можеш да си украсиш малко елементите. Прочети малко за css в нета - за border, border-radius, color, background-color, width, height, padding, margin.*/
-			
 			body {
 			}
 			
-			textarea {
+			answer {
 			}
 			
 			.check {
@@ -52,7 +50,13 @@
 		$mentorIdForTask=$task["mentor_id"];
 		$mentor=$db->getMentorById($mentorIdForTask);
 		$mentorAccount=$db->getAccountById($mentor[0]["account"]);
-		echo "<h3>".$task["question"]." (from mentor ".$mentorAccount[0]["full_name"].")</h3><textarea name=".$task["id"]."></textarea><div class=\"check\" id=\"fbk".$task["id"]."\"></div>";
+		echo "<h3>".$task["question"]." (from mentor ".$mentorAccount[0]["full_name"].")</h3>";
+		
+		if ($task["locked"]==0)
+			echo "<textarea class=\"answer\" name=".$task["id"]."></textarea>";
+		else
+			echo "<div class=\"answer\">".$task["answer"]."</div>";
+		echo "<div class=\"check\" id=\"fbk".$task["id"]."\"></div>";
 	}
 	echo "<br><button type=\"button\" onclick=\"onCheckAnswers()\">Провери отговорите</button><input type=submit value=Изпрати /></form>";
 	?>
