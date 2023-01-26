@@ -52,11 +52,22 @@ class MyDatabase{
 	}
 	
 	public function answerTask($taskIdForStudent, $answer) {
-		return $this->updateQuery("UPDATE task_student SET answer='$answer' WHERE id=$taskIdForStudent");
+		return $this->updateQuery("UPDATE task_student SET answer='$answer', locked=1 WHERE id=$taskIdForStudent");
 	}
 	
 	public function getAnswersForStudent($id) {
 		return $this->queryAsMap("SELECT task_student.*, task.answer AS actualAnswer FROM task_student INNER JOIN task ON task_student.task_id=task.id where student_id=$id;");
+	}
+	
+	public function emailExists($email) {
+		$this->queryAsMap("SELECT COUNT(*) as `exists` FROM mydb.account where email=\"$email\"");
+		return (boolean)($this->lastQuery[0]["exists"] === "1");
+	}
+	
+	public function addStudent($full_name, $email, $password) {
+		$this->updateQuery("INSERT INTO account (email, full_name, password) VALUES('$email', '$full_name', '$password')");
+		$this->queryAsMap("SELECT id FROM account where email='$email'");
+		$this->updateQuery("INSERT INTO student (level, account) VALUES ('Junior', ". $this->lastQuery[0]["id"] .")");
 	}
 }
 ?>

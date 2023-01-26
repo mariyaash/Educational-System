@@ -1,0 +1,1 @@
+<?phprequire($_SERVER["DOCUMENT_ROOT"] . "/educational_system/request/assert.php");if ($_POST["login"] === "1") {	require($_SERVER["DOCUMENT_ROOT"] . "/educational_system/login.php");}else if ($_POST["login"] === "0") {	require($_SERVER["DOCUMENT_ROOT"] . "/educational_system/register.php");}else {	http_response_code(400);}?>
