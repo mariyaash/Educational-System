@@ -5,7 +5,7 @@ if (!isset($loggedUser) || !is_array($loggedUser) || !array_key_exists("request"
 }
 
 session_start();
-require ("request/assert.php");
+require ($_SERVER["DOCUMENT_ROOT"] . "/educational_system/request/assert.php");
 if(!assertRequest($loggedUser["request"])||!assertSession("loginId")){
 	if (array_key_exists("redirect", $loggedUser))
 		header("Location:/educational_system/index.php");
@@ -15,7 +15,7 @@ if(!assertRequest($loggedUser["request"])||!assertSession("loginId")){
 	exit;
 }
 
-require("db/connect.php");
+require($_SERVER["DOCUMENT_ROOT"] . "/educational_system/db/connect.php");
 $accountId=$_SESSION["loginId"];
 $accountType=array("student","mentor");
 $account=$db->getAccountById($accountId);

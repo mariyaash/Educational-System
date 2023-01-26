@@ -1,10 +1,10 @@
 <?php
-require ("request/assert.php");
+require ($_SERVER["DOCUMENT_ROOT"] . "/educational_system/request/assert.php");
 if(!assertRequest("POST","email","password")){
 	http_response_code(400);
 	exit;
 }
-require ("db/connect.php");
+require ($_SERVER["DOCUMENT_ROOT"] . "/educational_system/db/connect.php");
 $result=$db->queryAsMap("SELECT * FROM mydb.account where email like \"".$_POST["email"]."\" and password like\"".$_POST["password"]."\"");
 if(count($result)==0){
 	echo "Failed";
