@@ -70,7 +70,31 @@
 			echo "<input type=submit value=Изпрати /></form>";
 	}
 	else {
-		echo "You are a mentor!";
+		define('containerIndex', 0);
+		define('answersIndex', 1);
+		
+		$mentor = $db->getMentorById($studentOrMentorId);
+		$tasks = $db->getAllAnswersForMentor($mentor[0]["id"]);
+		$tasksHTML = array();
+		
+		echo "<form action='/educational_system/answer/submit_assessments.php' method='post'>";
+		foreach ($tasks as $task) {
+				if (!array_key_exists($task["task_id"], $tasksHTML)) {
+					$tasksHTML[$task["task_id"]] = null;
+					$tasksHTML[$task["task_id"]][containerIndex] = "<div class='taskContainer' id='taskConatiner-". $task["task_id"] ."'><h4>" . $task["question"] . "</h4>";
+					$tasksHTML[$task["task_id"]][answersIndex] = null;
+				}
+				
+				if ($task["actual_answer"] !== $task["answer"]) {
+					$tasksHTML[$task["task_id"]][answersIndex] .= "<div class='answerContainer' id='answerContainer-'". $task["task_student_id"] . ">" . $task["actual_answer"] . " (от " . $task["full_name"] . ")" . "</div><select name=" . $task["task_student_id"] . " id='select-'". $task["task_student_id"] ."><option value='0'>Без оценка</option><option value='1'>Вярно</option><option value='-1'>Невярно</option></select>";
+				}
+		}
+		
+		foreach ($tasksHTML as $taskHTML) {
+			echo $taskHTML[containerIndex] . $taskHTML[answersIndex] . "</div>" ;
+		}
+		echo "<input type='submit' value='Изпрати'></form>";
+	
 	}
 	?>
 

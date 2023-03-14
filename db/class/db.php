@@ -71,5 +71,9 @@ class MyDatabase {
 		$this->queryAsMap("SELECT id FROM account where email='$email'");
 		$this->updateQuery("INSERT INTO student (level, account) VALUES ('Junior', ". $this->lastQuery[0]["id"] .")");
 	}
+	
+	public function getAllAnswersForMentor($mentorId) {
+		return $this->queryAsMap("SELECT task_id, student_id, question, task_student.answer As actual_answer, full_name, task.answer, task_student.id as task_student_id, assessment FROM task_student LEFT JOIN task ON task_student.task_id = task.id LEFT JOIN student ON task_student.student_id = student.id LEFT JOIN account ON student.account = account.id WHERE mentor_id = $mentorId");
+	}
 }
 ?>
