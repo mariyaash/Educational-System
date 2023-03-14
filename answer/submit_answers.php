@@ -1,7 +1,9 @@
 <?php
+require_once($_SERVER["DOCUMENT_ROOT"] . "/educational_system/account_type.php");
+
 $loggedUser = array(
 	"request" => "POST",
-	"accountType" => 0
+	"accountType" => AccountType::STUDENT
 );
 require($_SERVER["DOCUMENT_ROOT"] . "/educational_system/session/logged_user.php");
 

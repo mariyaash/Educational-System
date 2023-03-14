@@ -3,14 +3,14 @@
 class TaskInfo implements JsonSerializable {
 	
 	private $id;
-	private $correct;
+	private $assessment;
 	private $givenAnswer;
 	private $actualAnswer;
 	
-	public function __construct($id, $correct=true, $givenAnswer=null, $actualAnswer=null)
+	public function __construct($id, $assessment=1, $givenAnswer=null, $actualAnswer=null)
 	{
 		$this->id = $id;
-		$this->correct = $correct;
+		$this->assessment = $assessment;
 		$this->givenAnswer = $givenAnswer;
 		$this->actualAnswer = $actualAnswer;
 	}
