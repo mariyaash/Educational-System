@@ -23,7 +23,8 @@ $accountInfo=$db->getAccountInfo($accountId);
 $type=$accountInfo["type"];
 $studentOrMentorId=$accountInfo[0]["id"];
 
-if($type != $loggedUser["accountType"] && $type != AccountType::ANY){
+if($loggedUser["accountType"] != AccountType::ANY && $type != $loggedUser["accountType"]){
+	echo "Type is: " . $type;
 	http_response_code(400);
 	exit;
 }

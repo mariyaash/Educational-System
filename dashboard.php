@@ -37,30 +37,41 @@
 	<body>
 
 	<?php
-	require($_SERVER["DOCUMENT_ROOT"] . "/educational_system/account_type.php");
+	require_once($_SERVER["DOCUMENT_ROOT"] . "/educational_system/account_type.php");
 	
 	$loggedUser = array(
 		"request" => "GET",
-		"accountType" => AccountType::STUDENT,
+		"accountType" => AccountType::ANY,
 		"redirect" => true
 	);
 	require($_SERVER["DOCUMENT_ROOT"] . "/educational_system/session/logged_user.php");
-	echo "Welcome, ".$accountType[$type]. " " . $account[0]["full_name"];
-	$tasks=$db->getQuestionsForStudent($studentOrMentorId);
-	echo "<form action=\"answer/submit_answers.php\" method=POST>";
-	foreach($tasks as $task){
-		$mentorIdForTask=$task["mentor_id"];
-		$mentor=$db->getMentorById($mentorIdForTask);
-		$mentorAccount=$db->getAccountById($mentor[0]["account"]);
-		echo "<h3>".$task["question"]." (from mentor ".$mentorAccount[0]["full_name"].")</h3>";
-		
-		if ($task["locked"]==0)
-			echo "<textarea class=\"answer\" name=".$task["id"]."></textarea>";
-		else
-			echo "<div class=\"answer\">".$task["answer"]."</div>";
-		echo "<div class=\"check\" id=\"fbk".$task["id"]."\"></div>";
+	echo "Welcome, " . $accountType[$type] . " " . $account[0]["full_name"] . "<br>";
+	
+	if ($type == AccountType::STUDENT) {
+		$tasks=$db->getQuestionsForStudent($studentOrMentorId);
+		echo "<form action=\"answer/submit_answers.php\" method=POST>";
+		$hasUnansweredTasks = false;
+		foreach($tasks as $task){
+			$mentorIdForTask=$task["mentor_id"];
+			$mentor=$db->getMentorById($mentorIdForTask);
+			$mentorAccount=$db->getAccountById($mentor[0]["account"]);
+			echo "<h3>".$task["question"]." (from mentor ".$mentorAccount[0]["full_name"].")</h3>";
+			
+			if ($task["locked"]==0) {
+				$hasUnansweredTasks = true;
+				echo "<textarea class=\"answer\" name=".$task["id"]."></textarea>";
+			}
+			else
+				echo "<div class=\"answer\">".$task["answer"]."</div>";
+			echo "<div class=\"check\" id=\"fbk".$task["id"]."\"></div>";
+		}
+		echo "<br><button type=\"button\" onclick=\"onCheckAnswers()\">Провери отговорите</button>";
+		if ($hasUnansweredTasks)
+			echo "<input type=submit value=Изпрати /></form>";
 	}
-	echo "<br><button type=\"button\" onclick=\"onCheckAnswers()\">Провери отговорите</button><input type=submit value=Изпрати /></form>";
+	else {
+		echo "You are a mentor!";
+	}
 	?>
 
 	</body>

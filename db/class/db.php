@@ -1,4 +1,6 @@
 <?php
+require_once($_SERVER["DOCUMENT_ROOT"] . "/educational_system/account_type.php");
+
 class MyDatabase {
 	private $db;
 	private $lastQuery;
@@ -32,10 +34,10 @@ class MyDatabase {
 		$this->queryAsMap("SELECT * FROM student where account=$id");
 		if(count($this->lastQuery)==0){
 			$this->queryAsMap("SELECT * FROM mentor where account=$id");
-			$this->lastQuery["type"]=1;
+			$this->lastQuery["type"]=AccountType::MENTOR;
 			return $this->lastQuery;
 		}
-		$this->lastQuery["type"]=0;
+		$this->lastQuery["type"]=AccountType::STUDENT;
 		return $this->lastQuery;
 	}
 	
