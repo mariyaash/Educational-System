@@ -1,5 +1,5 @@
-<?php 
-class MyDatabase{
+<?php
+class MyDatabase {
 	private $db;
 	private $lastQuery;
 	

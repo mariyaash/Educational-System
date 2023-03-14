@@ -37,9 +37,11 @@
 	<body>
 
 	<?php
+	require($_SERVER["DOCUMENT_ROOT"] . "/educational_system/account_type.php");
+	
 	$loggedUser = array(
 		"request" => "GET",
-		"accountType" => 0,
+		"accountType" => AccountType::STUDENT,
 		"redirect" => true
 	);
 	require($_SERVER["DOCUMENT_ROOT"] . "/educational_system/session/logged_user.php");
