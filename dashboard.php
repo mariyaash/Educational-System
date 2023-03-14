@@ -7,10 +7,12 @@
 					  let jsonResponse = JSON.parse(this.responseText);
 					  
 					  for (let task of jsonResponse) {
-						  if (task.correct == true)
+						  if (task.assessment == 1)
 							  document.getElementById("fbk" + task.id).innerHTML = "Вашият отговор е верен.";
-						  else
+						  else if (task.assessment == -1)
 							  document.getElementById("fbk" + task.id).innerHTML = "Вашият отговор е грешен.<br>Правилният отговор е: " + task.actualAnswer;
+						  else
+							  document.getElementById("fbk" + task.id).innerHTML = "Вашият отговор все още не е оценен.";
 					  }
 				  }
 				  xhttp.open("GET", "/educational_system/answer/check_answers.php");

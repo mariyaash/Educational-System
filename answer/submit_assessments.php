@@ -13,6 +13,7 @@ foreach ($_POST as $taskAnswerId => $assessment) {
 	if($db->isTaskOwnedByMentor($taskAnswerId, $mentor[0]["id"])) {
 		$db->assessStudentTask($taskAnswerId, $assessment);
 	}
+	else echo "грешка";
 }
 
 echo "Вашите оценки бяха изпратени.";

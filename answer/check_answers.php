@@ -11,10 +11,10 @@ $result = [];
 $index = 0;
 foreach ($tasks as $task) {
 	
-	if ($task["answer"] !== $task["actualAnswer"]) {
-		$result[$index] = new TaskInfo($task["id"], false, $task["answer"], $task["actualAnswer"]);
+	if ($task["answer"] !== $task["actualAnswer"] ) {
+		$result[$index] = new TaskInfo($task["id"], $task["assessment"], $task["answer"], $task["actualAnswer"]);
 	} else {
-		$result[$index] = new TaskInfo($task["id"], true);
+		$result[$index] = new TaskInfo($task["id"], 1);
 	}
 	
 	$index++;
